@@ -1,19 +1,14 @@
-package at.fhtw.tourplannerui.viewModel;
+package at.fhtw.tourplannerui.view;
 
-import at.fhtw.tourplannerui.businesslayer.TourPlannerManager;
-import at.fhtw.tourplannerui.businesslayer.TourPlannerManagerFactory;
+import at.fhtw.tourplannerui.viewModel.TourPlannerManager;
+import at.fhtw.tourplannerui.viewModel.TourPlannerManagerFactory;
 import at.fhtw.tourplannerui.models.Tour;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.List;
@@ -23,6 +18,16 @@ public class MainWindowController implements Initializable {
 
     public ListView listTours;
     public TextField searchField;
+    public TextField addNameTour;
+    public TextArea addDescriptionTour;
+    public TextField addStartLocation;
+    public TextField addTransportType;
+    public TextField addDestinationTour;
+    public TabPane tourTabPane;
+    public Tab tourListTab;
+    public Tab addTourTab;
+    public Tab deleteTourTab;
+
     private ObservableList<Tour> tourList;
     private Tour currentTour;
     private TourPlannerManager manager;
@@ -60,10 +65,10 @@ public class MainWindowController implements Initializable {
             protected void updateItem(Tour item, boolean empty){
                 super.updateItem(item, empty);
 
-                if(empty || (item == null) || (item.getTourName() == null)){
+                if(empty || (item == null) || (item.getName() == null)){
                     setText(null);
                 } else{
-                    setText(item.getTourName());
+                    setText(item.getName());
                 }
             }
         });
@@ -88,5 +93,19 @@ public class MainWindowController implements Initializable {
 
         List<Tour> tours = manager.getTours();
         tourList.addAll(tours);
+    }
+
+    public void addAction(ActionEvent actionEvent) {
+
+        tourList.clear();
+
+        List<Tour> tours= manager.addTour(addNameTour.textProperty().getValue(),
+                addDescriptionTour.textProperty().getValue(),
+                addStartLocation.textProperty().getValue(),
+                addDestinationTour.textProperty().getValue(),
+                addTransportType.textProperty().getValue());
+
+        tourList.addAll(tours);
+        tourTabPane.getSelectionModel().select(tourListTab);
     }
 }

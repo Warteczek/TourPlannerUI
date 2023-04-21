@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.ListView?>
-<BorderPane fx:id="layout" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhtw.tourplannerui.viewModel.MainWindowController">
+<BorderPane fx:id="layout" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhtw.tourplannerui.view.MainWindowController">
     <top>
         <VBox>
             <MenuBar BorderPane.alignment="CENTER">
@@ -45,45 +47,21 @@
             </MenuBar>
             <HBox alignment="CENTER_LEFT">
                 <padding>
-                    <Insets top="10" right="10" bottom="10" left="10" />
+                    <Insets bottom="10" left="10" right="10" top="10" />
                 </padding>
                 <TextField fx:id="searchField" promptText="Search...">
                     <opaqueInsets>
-                        <Insets top="3" right="3" bottom="3" left="3"/>
+                        <Insets bottom="3" left="3" right="3" top="3" />
                     </opaqueInsets>
                     <padding>
-                        <Insets top="5" right="30" bottom="5" left="10"/>
+                        <Insets bottom="5" left="10" right="30" top="5" />
                     </padding>
                 </TextField>
-                <Button text="Search" onAction="#searchAction"/>
-                <Button text="Clear" onAction="#clearAction"/>
+                <Button onAction="#searchAction" text="Search" />
+                <Button onAction="#clearAction" text="Clear" />
             </HBox>
         </VBox>
     </top>
-    <center>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-            <tabs>
-                <Tab text="General">
-                    <content>
-                        <VBox>
-                            <Label>General tour information</Label>
-                            <Label>Description: </Label>
-                            <Label>Starting location: </Label>
-                            <Label>Destination: </Label>
-                            <Label>Transport type: </Label>
-                            <Label>Distance: </Label>
-                            <Label>Estimated time: </Label>
-                        </VBox>
-
-                    </content>
-                </Tab>
-                <Tab text="Route">
-                    <content>
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
-    </center>
     <bottom>
         <ToolBar maxHeight="20.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="20.0" BorderPane.alignment="CENTER">
             <items>
@@ -94,9 +72,9 @@
         </ToolBar>
     </bottom>
    <left>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tourTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Tours">
+          <Tab fx:id="tourListTab" text="Tours">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
@@ -108,7 +86,109 @@
               </AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="addTourTab" text="Add Tour">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="286.0">
+                     <children>
+                        <Label layoutX="83.0" layoutY="14.0" text="Name" />
+                        <TextField fx:id="addNameTour" layoutX="26.0" layoutY="31.0" />
+                        <Label layoutX="69.0" layoutY="63.0" text="Description" />
+                        <TextArea fx:id="addDescriptionTour" layoutX="28.0" layoutY="80.0" prefHeight="202.0" prefWidth="146.0" />
+                        <Label layoutX="55.0" layoutY="292.0" text="Starting location" />
+                        <Label layoutX="62.0" layoutY="403.0" text="Transport type" />
+                        <Label layoutX="69.0" layoutY="349.0" text="Destination" />
+                        <TextField fx:id="addStartLocation" layoutX="25.0" layoutY="309.0" />
+                        <TextField fx:id="addTransportType" layoutX="25.0" layoutY="366.0" />
+                        <TextField fx:id="addDestinationTour" layoutX="27.0" layoutY="420.0" />
+                     </children>
+                    <Button onAction="#addAction" text="Add tour" />
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="deleteTourTab" text="Delete Tour">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="279.0">
+                     <children>
+                        <ListView layoutY="61.0" prefHeight="570.0" prefWidth="200.0" />
+                        <Button layoutX="43.0" layoutY="14.0" mnemonicParsing="false" text="Delete selected tours" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="General information">
+                  <content>
+                      <VBox>
+                          <Label>General tour information</Label>
+                          <Label>Description: </Label>
+                          <Label>Starting location: </Label>
+                          <Label>Destination: </Label>
+                          <Label>Transport type: </Label>
+                          <Label>Distance: </Label>
+                          <Label>Estimated time: </Label>
+                      </VBox>
+                  </content>
+                </Tab>
+                <Tab text="Route">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="326.0" prefWidth="1400.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                  <Tab text="Tour logs">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="254.0" prefWidth="1400.0">
+                           <children>
+                              <TableView layoutX="47.0" layoutY="14.0" prefHeight="266.0" prefWidth="402.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Date" />
+                                  <TableColumn prefWidth="75.0" text="Duration" />
+                                    <TableColumn prefWidth="75.0" text="Distance" />
+                                </columns>
+                              </TableView>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Add Log">
+                     <content>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="171.0" prefWidth="378.0">
+                                 <children>
+                                    <Label text="Label" />
+                                    <TextField />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="171.0" prefWidth="350.0">
+                                 <children>
+                                    <Label text="Label" />
+                                    <TextField />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="171.0" prefWidth="396.0">
+                                 <children>
+                                    <Label text="Label" />
+                                    <TextField />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
+                  </Tab>
+                  <Tab text="Delete Log" />
+              </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

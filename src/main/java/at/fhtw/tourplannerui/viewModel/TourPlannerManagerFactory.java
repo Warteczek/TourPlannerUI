@@ -1,8 +1,4 @@
-package at.fhtw.tourplannerui.businesslayer;
-
-import at.fhtw.tourplannerui.models.Tour;
-
-import java.util.List;
+package at.fhtw.tourplannerui.viewModel;
 
 public final class TourPlannerManagerFactory {
     private static TourPlannerManager manager;
