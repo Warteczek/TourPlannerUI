@@ -3,12 +3,13 @@ package at.fhtw.tourplannerui.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonAlias;
 
 @AllArgsConstructor
-
+@Builder
 @Getter @Setter
 public class Tour {
 

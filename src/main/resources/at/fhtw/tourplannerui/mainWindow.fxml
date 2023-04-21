@@ -82,26 +82,25 @@
                           <ListView fx:id="listTours" />
                       </children>
                   </VBox>
-
               </AnchorPane>
             </content>
           </Tab>
             <Tab fx:id="addTourTab" text="Add Tour">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="286.0">
-                     <children>
-                        <Label layoutX="83.0" layoutY="14.0" text="Name" />
-                        <TextField fx:id="addNameTour" layoutX="26.0" layoutY="31.0" />
-                        <Label layoutX="69.0" layoutY="63.0" text="Description" />
-                        <TextArea fx:id="addDescriptionTour" layoutX="28.0" layoutY="80.0" prefHeight="202.0" prefWidth="146.0" />
-                        <Label layoutX="55.0" layoutY="292.0" text="Starting location" />
-                        <Label layoutX="62.0" layoutY="403.0" text="Transport type" />
-                        <Label layoutX="69.0" layoutY="349.0" text="Destination" />
-                        <TextField fx:id="addStartLocation" layoutX="25.0" layoutY="309.0" />
-                        <TextField fx:id="addTransportType" layoutX="25.0" layoutY="366.0" />
-                        <TextField fx:id="addDestinationTour" layoutX="27.0" layoutY="420.0" />
-                     </children>
-                    <Button onAction="#addAction" text="Add tour" />
+
+                    <Label layoutX="83.0" layoutY="14.0" text="Name" />
+                    <TextField fx:id="addNameTour" layoutX="26.0" layoutY="31.0" />
+                    <Label layoutX="69.0" layoutY="63.0" text="Description" />
+                    <TextArea fx:id="addDescriptionTour" layoutX="28.0" layoutY="80.0" prefHeight="202.0" prefWidth="146.0" />
+                    <Label layoutX="55.0" layoutY="292.0" text="Starting location" />
+                    <Label layoutX="62.0" layoutY="403.0" text="Transport type" />
+                    <Label layoutX="69.0" layoutY="349.0" text="Destination" />
+                    <TextField fx:id="addStartLocation" layoutX="25.0" layoutY="309.0" />
+                    <TextField fx:id="addTransportType" layoutX="25.0" layoutY="366.0" />
+                    <TextField fx:id="addDestinationTour" layoutX="27.0" layoutY="420.0" />
+
+                    <Button layoutX="68.0" layoutY="464.0" onAction="#addAction" text="Add tour" />
                   </AnchorPane>
               </content>
             </Tab>
@@ -109,8 +108,8 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="279.0">
                      <children>
-                        <ListView layoutY="61.0" prefHeight="570.0" prefWidth="200.0" />
-                        <Button layoutX="43.0" layoutY="14.0" mnemonicParsing="false" text="Delete selected tours" />
+                        <ListView fx:id="deleteListTours" layoutY="61.0" prefHeight="570.0" prefWidth="200.0" />
+                        <Button onAction="#deleteAction" layoutX="43.0" layoutY="14.0" mnemonicParsing="false" text="Delete selected tours" />
                      </children>
                   </AnchorPane>
                </content>

@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class TourPlannerManagerImpl implements TourPlannerManager{
     @Override
     public List<Tour> getTours() {
+        List<Tour> tours = new ArrayList<Tour>();
         try {
             URL url = new URL("http://localhost:8087/tours");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -33,26 +34,15 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
             }
             in.close();
 
-            //TODO get all List item in the List
             ObjectMapper objectMapper = new ObjectMapper();
             List<Tour> responseList = objectMapper.readValue(response.toString(), new TypeReference<List<Tour>>(){});
-
-
-            System.out.println(response.toString());
-            System.out.println(responseList);
-            System.out.println(responseList.get(2).getName());
+            for (Tour tour:responseList) {
+                tours.add(tour);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Tour[] tours= {
-                new Tour("Uganda"),
-                new Tour("Mailand"),
-                new Tour("Lissabon")
-        };
-
-        return new ArrayList<Tour>(Arrays.asList(tours));
-
+        return tours;
     }
 
     @Override
@@ -64,32 +54,50 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
         }
         return tours.stream().filter(x-> x.getName().toLowerCase().contains(searchString.toLowerCase())).collect(Collectors.toList());
     }
+
+    //TODO does strange things
     public List<Tour> addTour(String tourName, String description, String startingLocation, String targetLocation, String transportType){
         try {
-
             URL url = new URL("http://localhost:8087/tour");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("POST");
             conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
             OutputStream outputStream = conn.getOutputStream();
             PrintWriter printWriter = new PrintWriter(outputStream);
-            //TODO wrong format of this:
-            printWriter.write("{\"name\": "+tourName+" }");
-            printWriter.close();
-            InputStream inputStream = conn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-            System.out.println(bufferedReader);
+            Tour newTour= Tour.builder().build();
+            newTour.setName(tourName);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(newTour);
+
+            printWriter.write(jsonString);
+            printWriter.close();
+
+            System.out.println(conn.getResponseCode());
         } catch(Exception e){
             e.printStackTrace();
         }
 
-
-        Tour newTour= new Tour(tourName);
+        //Tour newTour= new Tour(tourName);
         List<Tour> tours = getTours();
-        tours.add(newTour);
+        //tours.add(newTour);
 
         return tours;
+    }
+
+    public void deleteTours(List<String> deleteIDs){
+        for(String id: deleteIDs){
+
+            try {
+                URL url = new URL("http://localhost:8087/tour/"+id);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("DELETE");
+                System.out.println(id);
+                System.out.println(conn.getResponseCode());
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 }
