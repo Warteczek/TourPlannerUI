@@ -3,6 +3,7 @@ module at.fhtw.tourplannerui {
     requires javafx.fxml;
     requires lombok;
     requires com.fasterxml.jackson.databind;
+    requires java.sql;
 
 
     opens at.fhtw.tourplannerui to javafx.fxml;

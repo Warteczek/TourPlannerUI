@@ -16,6 +16,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -97,8 +98,8 @@
                     <Label layoutX="62.0" layoutY="403.0" text="Transport type" />
                     <Label layoutX="69.0" layoutY="349.0" text="Destination" />
                     <TextField fx:id="addStartLocation" layoutX="25.0" layoutY="309.0" />
-                    <TextField fx:id="addTransportType" layoutX="25.0" layoutY="366.0" />
-                    <TextField fx:id="addDestinationTour" layoutX="27.0" layoutY="420.0" />
+                    <TextField fx:id="addDestinationTour" layoutX="25.0" layoutY="366.0" />
+                    <TextField fx:id="addTransportType" layoutX="27.0" layoutY="420.0" />
 
                     <Button layoutX="68.0" layoutY="464.0" onAction="#addAction" text="Add tour" />
                   </AnchorPane>
@@ -109,7 +110,7 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="279.0">
                      <children>
                         <ListView fx:id="deleteListTours" layoutY="61.0" prefHeight="570.0" prefWidth="200.0" />
-                        <Button onAction="#deleteAction" layoutX="43.0" layoutY="14.0" mnemonicParsing="false" text="Delete selected tours" />
+                        <Button layoutX="43.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteAction" text="Delete selected tours" />
                      </children>
                   </AnchorPane>
                </content>
@@ -120,35 +121,62 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane prefHeight="350.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="General information">
-                  <content>
-                      <VBox>
-                          <Label>General tour information</Label>
-                          <Label>Description: </Label>
-                          <Label>Starting location: </Label>
-                          <Label>Destination: </Label>
-                          <Label>Transport type: </Label>
-                          <Label>Distance: </Label>
-                          <Label>Estimated time: </Label>
-                      </VBox>
-                  </content>
+                     <content>
+                        <HBox prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Name:" />
+                                    <Label fx:id="infoName" />
+                                    <Label text="From: " />
+                                    <Label fx:id="infoFrom" />
+                                    <Label text="To:" />
+                                    <Label fx:id="infoTo" />
+                                    <Label text="Transport type:" />
+                                    <Label fx:id="infoTransType" />
+                                    <Label text="Distance:" />
+                                    <Label fx:id="infoDistance" />
+                                    <Label text="Time:" />
+                                    <Label fx:id="infoTime" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Description" />
+                                    <Label fx:id="infoDescription" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
                 </Tab>
                 <Tab text="Route">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="326.0" prefWidth="1400.0" />
-                  </content>
+                     <content>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="routeImage" fitHeight="299.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
+                     </content>
                 </Tab>
               </tabs>
             </TabPane>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane prefHeight="400.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab text="Tour logs">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="254.0" prefWidth="1400.0">
                            <children>
-                              <TableView layoutX="47.0" layoutY="14.0" prefHeight="266.0" prefWidth="402.0">
+                              <TableView layoutX="47.0" layoutY="14.0" prefHeight="300.0" prefWidth="600.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Date" />
                                   <TableColumn prefWidth="75.0" text="Duration" />

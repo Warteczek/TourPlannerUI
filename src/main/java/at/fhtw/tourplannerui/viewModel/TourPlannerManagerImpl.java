@@ -68,6 +68,11 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
 
             Tour newTour= Tour.builder().build();
             newTour.setName(tourName);
+            newTour.setDescription(description);
+            newTour.setFrom(startingLocation);
+            newTour.setTo(targetLocation);
+            newTour.setType(transportType);
+
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonString = objectMapper.writeValueAsString(newTour);
 

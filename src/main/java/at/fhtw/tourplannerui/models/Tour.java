@@ -26,9 +26,9 @@ public class Tour {
     @JsonProperty("type")
     private String type;
     @JsonProperty("distance")
-    private int distance;
+    private Float distance;
     @JsonProperty("time")
-    private float time;
+    private Integer time;
     @JsonProperty("imgPath")
     private String imgPath;
 
