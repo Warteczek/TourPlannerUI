@@ -26,6 +26,9 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainWindowController implements Initializable {
 
     public ListView listTours;
@@ -49,6 +52,7 @@ public class MainWindowController implements Initializable {
     public Label infoTime;
     public Label infoDescription;
     public ImageView routeImage;
+    public Label routeErrorLabel;
 
 
 
@@ -83,52 +87,45 @@ public class MainWindowController implements Initializable {
         listTours.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
             if((newValue!=null) && (oldValue!=newValue)){
                 currentTour= (Tour) newValue;
-                // create an ExecutorService with a single thread
                 ExecutorService executor = Executors.newSingleThreadExecutor();
-                // create a new Runnable to set the distance text and run it in a separate thread
                 Runnable getRouteImage = () -> {
-                    try {
-                        URL url = new URL("http://localhost:8087/map?start="+currentTour.getFrom()+"&end="+currentTour.getTo());
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setRequestMethod("GET");
-
-                        // read the response from the server as a byte array
-                        byte[] response = new byte[conn.getContentLength()];
-                        InputStream in = conn.getInputStream();
-                        int bytesRead = 0;
-                        while (bytesRead < response.length) {
-                            int count = in.read(response, bytesRead, (response.length - bytesRead));
-                            if (count == -1) {
-                                break;
-                            }
-                            bytesRead += count;
-                        }
-                        in.close();
-
-                        // create a new ByteArrayInputStream from the response byte array
-                        ByteArrayInputStream bais = new ByteArrayInputStream(response);
-
-                        Image image = new Image(bais);
-
+                    Image image=manager.getRoute(currentTour);
+                    if(image==null){
+                        routeErrorLabel.setText("Could not load route");
+                    }else{
+                        routeErrorLabel.setText("");
                         routeImage.setImage(image);
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
-
                 };
                 executor.execute(getRouteImage);
 
+                String responseString=manager.getDistanceAndTime(currentTour);
+                if (responseString==""){
+                    infoDistance.setText("Could not load distance");
+                    infoTime.setText("Could not load time");
+                }
+                else{
+                    try {
+                        JSONObject json_obj = new JSONObject(responseString);
+
+                        double distance_value = 0;
+                        double time = 0;
+
+                        distance_value = json_obj.getDouble("distance");
+                        time = json_obj.getDouble("time");
+
+                        infoDistance.setText(String.valueOf(distance_value)+ " km");
+                        infoTime.setText(String.valueOf(Math.round((time/(60*60))*10)/10.0)+" hours");
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 infoName.setText(currentTour.getId() + " " + currentTour.getName());
                 infoFrom.setText(currentTour.getFrom());
                 infoTo.setText(currentTour.getTo());
                 infoTransType.setText(currentTour.getType());
-
-                System.out.println(currentTour.getDistance());
-
-                //infoDistance.setText(currentTour.getDistance().toString());
-                infoDistance.setText("");
-                //infoTime.setText(currentTour.getTime().toString());
                 infoDescription.setText(currentTour.getDescription());
 
                 executor.shutdown();
@@ -138,52 +135,44 @@ public class MainWindowController implements Initializable {
         deleteListTours.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
             if((newValue!=null) && (oldValue!=newValue)){
                 currentTour= (Tour) newValue;
-                // create an ExecutorService with a single thread
                 ExecutorService executor = Executors.newSingleThreadExecutor();
-                // create a new Runnable to set the distance text and run it in a separate thread
                 Runnable getRouteImage = () -> {
-                    try {
-                        URL url = new URL("http://localhost:8087/map?start="+currentTour.getFrom()+"&end="+currentTour.getTo());
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setRequestMethod("GET");
+                    Image image=manager.getRoute(currentTour);
 
-                        // read the response from the server as a byte array
-                        byte[] response = new byte[conn.getContentLength()];
-                        InputStream in = conn.getInputStream();
-                        int bytesRead = 0;
-                        while (bytesRead < response.length) {
-                            int count = in.read(response, bytesRead, (response.length - bytesRead));
-                            if (count == -1) {
-                                break;
-                            }
-                            bytesRead += count;
-                        }
-                        in.close();
+                    if(image==null){
+                        routeErrorLabel.setText("Could not load route");
 
-                        // create a new ByteArrayInputStream from the response byte array
-                        ByteArrayInputStream bais = new ByteArrayInputStream(response);
-
-                        Image image = new Image(bais);
-
+                    }else{
+                        routeErrorLabel.setText("");
                         routeImage.setImage(image);
+                    }
+                };
+                executor.execute(getRouteImage);
+                String responseString=manager.getDistanceAndTime(currentTour);
+                if (responseString==""){
+                    infoDistance.setText("Could not load distance");
+                    infoTime.setText("Could not load time");
+                }
+                else{
+                    try {
+                        JSONObject json_obj = new JSONObject(responseString);
+                        double distance_value = 0;
+                        double time = 0;
+                        distance_value = json_obj.getDouble("distance");
+                        time = json_obj.getDouble("time");
+
+                        infoDistance.setText(String.valueOf(distance_value)+ " km");
+                        infoTime.setText(String.valueOf(Math.round((time/(60*60))*10)/10.0)+" hours");
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                };
-                executor.execute(getRouteImage);
-
+                }
 
                 infoName.setText(currentTour.getId() + " " + currentTour.getName());
                 infoFrom.setText(currentTour.getFrom());
                 infoTo.setText(currentTour.getTo());
                 infoTransType.setText(currentTour.getType());
-
-                System.out.println(currentTour.getDistance());
-
-                //infoDistance.setText(currentTour.getDistance().toString());
-                infoDistance.setText("");
-                //infoTime.setText(currentTour.getTime().toString());
                 infoDescription.setText(currentTour.getDescription());
 
                 executor.shutdown();

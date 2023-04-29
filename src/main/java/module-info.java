@@ -4,6 +4,7 @@ module at.fhtw.tourplannerui {
     requires lombok;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
+    requires android.json;
 
 
     opens at.fhtw.tourplannerui to javafx.fxml;
