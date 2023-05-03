@@ -109,7 +109,7 @@
                     <TextField fx:id="addDestinationTour" layoutX="25.0" layoutY="366.0" />
                     <TextField fx:id="addTransportType" layoutX="27.0" layoutY="420.0" />
 
-                    <Button layoutX="68.0" layoutY="464.0" onAction="#addAction" text="Add tour" />
+                    <Button fx:id="addTourButton" layoutX="68.0" layoutY="464.0" onAction="#addAction" text="Add tour" />
                   </AnchorPane>
               </content>
             </Tab>
