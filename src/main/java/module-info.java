@@ -5,6 +5,7 @@ module at.fhtw.tourplannerui {
     requires com.fasterxml.jackson.databind;
     requires java.sql;
     requires android.json;
+    requires itextpdf;
 
 
     opens at.fhtw.tourplannerui to javafx.fxml;

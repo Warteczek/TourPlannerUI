@@ -5,6 +5,7 @@ import at.fhtw.tourplannerui.viewModel.TourPlannerManagerFactory;
 import at.fhtw.tourplannerui.models.Tour;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.pdf.PdfDocument;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +29,11 @@ import java.util.concurrent.Executors;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class MainWindowController implements Initializable {
 
@@ -284,21 +290,33 @@ public class MainWindowController implements Initializable {
 
         String home = System.getProperty("user.home");
         String dest = home + "/Downloads/" + currentTour.getName() + ".pdf";
-        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
-        Document document = new Document(pdfDoc);
+        Document document = new Document();
 
-        document.add(new Paragraph("Name: " + currentTour.getName()));
-        document.add(new Paragraph("Description: " + currentTour.getDescription()));
-        document.add(new Paragraph("From: " + currentTour.getFrom()));
-        document.add(new Paragraph("To: " + currentTour.getTo()));
-        document.add(new Paragraph("Type: " + currentTour.getType()));
-        document.add(new Paragraph("Distance: " + currentTour.getDistance()));
-        document.add(new Paragraph("Time: " + currentTour.getTime()));
+        try{
+            // Create a new PdfWriter object to write the document to a file
+            PdfWriter.getInstance(document, new FileOutputStream(dest));
 
-        document.close();
+            // Open the document for writing
+            document.open();
+
+            document.add(new Paragraph("Name: " + currentTour.getName()));
+            document.add(new Paragraph("Description: " + currentTour.getDescription()));
+            document.add(new Paragraph("From: " + currentTour.getFrom()));
+            document.add(new Paragraph("To: " + currentTour.getTo()));
+            document.add(new Paragraph("Type: " + currentTour.getType()));
+            //TODO distance and time are null
+            document.add(new Paragraph("Distance: " + currentTour.getDistance()));
+            document.add(new Paragraph("Time: " + currentTour.getTime()));
+
+            //TODO tourlogs
+
+            document.close();
+        }catch(FileNotFoundException | DocumentException e){
+            e.printStackTrace();
+        }
     }
 
     public void generateSummarizeReport(ActionEvent actionEvent) {
-
+        //TODO
     }
 }
