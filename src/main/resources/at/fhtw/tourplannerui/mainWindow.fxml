@@ -45,6 +45,13 @@
                             <MenuItem text="Settings" />
                         </items>
                     </Menu>
+                    <Menu text="Report">
+                        <items>
+                            <MenuItem onAction="#generateTourReport" text="Tour Report" />
+                            <SeparatorMenuItem mnemonicParsing="false" />
+                            <MenuItem onAction="#generateSummarizeReport" text="Summarize Report" />
+                        </items>
+                    </Menu>
                 </menus>
             </MenuBar>
             <HBox alignment="CENTER_LEFT">

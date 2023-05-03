@@ -28,6 +28,7 @@ import java.util.concurrent.Executors;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
 
 public class MainWindowController implements Initializable {
 
@@ -264,5 +265,41 @@ public class MainWindowController implements Initializable {
         }
         manager.deleteTours(deleteIDs);
         setUpListView();
+    }
+
+    public void generateTourReport(ActionEvent actionEvent) {
+        listTours.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if((newValue!=null) && (oldValue!=newValue)){
+                currentTour= (Tour) newValue;
+            }
+        }));
+
+        deleteListTours.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if((newValue!=null) && (oldValue!=newValue)) {
+                currentTour = (Tour) newValue;
+            }
+        }));
+
+        if(currentTour == null)
+            return;
+
+        String home = System.getProperty("user.home");
+        String dest = home + "/Downloads/" + currentTour.getName() + ".pdf";
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
+        Document document = new Document(pdfDoc);
+
+        document.add(new Paragraph("Name: " + currentTour.getName()));
+        document.add(new Paragraph("Description: " + currentTour.getDescription()));
+        document.add(new Paragraph("From: " + currentTour.getFrom()));
+        document.add(new Paragraph("To: " + currentTour.getTo()));
+        document.add(new Paragraph("Type: " + currentTour.getType()));
+        document.add(new Paragraph("Distance: " + currentTour.getDistance()));
+        document.add(new Paragraph("Time: " + currentTour.getTime()));
+
+        document.close();
+    }
+
+    public void generateSummarizeReport(ActionEvent actionEvent) {
+
     }
 }
