@@ -28,7 +28,6 @@ import java.util.concurrent.Executors;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
 
 public class MainWindowController implements Initializable {
 
