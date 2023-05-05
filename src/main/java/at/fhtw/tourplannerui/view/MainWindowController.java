@@ -1,5 +1,6 @@
 package at.fhtw.tourplannerui.view;
 
+import at.fhtw.tourplannerui.models.TourLog;
 import at.fhtw.tourplannerui.viewModel.TourPlannerManager;
 import at.fhtw.tourplannerui.viewModel.TourPlannerManagerFactory;
 import at.fhtw.tourplannerui.models.Tour;
@@ -60,6 +61,13 @@ public class MainWindowController implements Initializable {
     public ImageView routeImage;
     public Label routeErrorLabel;
 
+    public TextArea addTourLogComment;
+    public TextField addTourLogDifficulty;
+    public TextField addTourLogDuration;
+    public TextField addTourLogRating;
+    public TableView tourLogTable;
+
+
 
 
     private ObservableList<Tour> tourList;
@@ -94,6 +102,8 @@ public class MainWindowController implements Initializable {
             if((newValue!=null) && (oldValue!=newValue)){
                 currentTour= (Tour) newValue;
                 ExecutorService executor = Executors.newSingleThreadExecutor();
+
+                //load Route Image
                 Runnable getRouteImage = () -> {
                     Image image=manager.getRoute(currentTour);
                     if(image==null){
@@ -104,6 +114,8 @@ public class MainWindowController implements Initializable {
                     }
                 };
                 executor.execute(getRouteImage);
+
+                //load Tour Data
 
                 String responseString=manager.getDistanceAndTime(currentTour);
                 if (responseString==""){
@@ -133,6 +145,14 @@ public class MainWindowController implements Initializable {
                 infoTo.setText(currentTour.getTo());
                 infoTransType.setText(currentTour.getType());
                 infoDescription.setText(currentTour.getDescription());
+
+
+                //load Tour Logs
+                //List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
+
+
+                //TODO load logs
+
 
                 executor.shutdown();
             }
@@ -318,5 +338,16 @@ public class MainWindowController implements Initializable {
 
     public void generateSummarizeReport(ActionEvent actionEvent) {
         //TODO
+    }
+
+    public void addTourLog(){
+        Tour currentTour= (Tour) listTours.getSelectionModel().getSelectedItem();
+
+        String comment=addTourLogComment.textProperty().getValue();
+        Integer rating=Integer.parseInt(addTourLogRating.textProperty().getValue());
+        Integer difficulty=Integer.parseInt(addTourLogDifficulty.textProperty().getValue());
+        Integer totalTime=Integer.parseInt(addTourLogDuration.textProperty().getValue());
+
+        manager.addTourLogForID(currentTour.getId(), comment, rating, difficulty, totalTime);
     }
 }

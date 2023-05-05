@@ -1,6 +1,7 @@
 package at.fhtw.tourplannerui.viewModel;
 
 import at.fhtw.tourplannerui.models.Tour;
+import at.fhtw.tourplannerui.models.TourLog;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import javafx.scene.image.Image;
@@ -13,4 +14,7 @@ public interface TourPlannerManager {
     public void deleteTours(List<String> ids);
     public Image getRoute(Tour currentTour);
     public String getDistanceAndTime(Tour currentTour);
+
+    public List<TourLog> getTourLogs(String tourID);
+    public void addTourLogForID(String id, String comment, Integer rating, Integer difficulty, Integer totalTime);
 }

@@ -1,6 +1,7 @@
 package at.fhtw.tourplannerui.viewModel;
 
 import at.fhtw.tourplannerui.models.Tour;
+import at.fhtw.tourplannerui.models.TourLog;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -164,5 +166,64 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
             e.printStackTrace();
         }
         return "";
+    }
+
+    @Override
+    public List<TourLog> getTourLogs(String tourID) {
+        //TODO get Tourlogs
+        try {
+            URL url = new URL("http://localhost:8087/");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            String responseString=response.toString();
+
+            System.out.println(responseString);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void addTourLogForID(String id, String comment, Integer rating, Integer difficulty, Integer totalTime) {
+        try {
+            URL url = new URL("http://localhost:8087/tour/"+id+"/tourlog");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            OutputStream outputStream = conn.getOutputStream();
+            PrintWriter printWriter = new PrintWriter(outputStream);
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+            TourLog newTourLog= TourLog.builder().build();
+            newTourLog.setCreationTime(timestamp);
+            newTourLog.setComment(comment);
+            newTourLog.setRating(rating);
+            newTourLog.setDifficulty(difficulty);
+            newTourLog.setTotalTime(totalTime);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(newTourLog);
+
+            printWriter.write(jsonString);
+            printWriter.close();
+
+            System.out.println(conn.getResponseCode());
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
