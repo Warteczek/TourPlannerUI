@@ -66,8 +66,8 @@
                         <Insets bottom="5" left="10" right="30" top="5" />
                     </padding>
                 </TextField>
-                <Button onAction="#searchAction" text="Search" />
-                <Button onAction="#clearAction" text="Clear" />
+                <Button fx:id="searchButton" onAction="#searchAction" text="Search" />
+                <Button fx:id="clearButton" onAction="#clearAction" text="Clear" />
             </HBox>
         </VBox>
     </top>
@@ -118,7 +118,7 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="279.0">
                      <children>
                         <ListView fx:id="deleteListTours" layoutY="61.0" prefHeight="570.0" prefWidth="200.0" />
-                        <Button layoutX="43.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteAction" text="Delete selected tours" />
+                        <Button fx:id="deleteToursButton" layoutX="43.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteAction" text="Delete selected tours" />
                      </children>
                   </AnchorPane>
                </content>
