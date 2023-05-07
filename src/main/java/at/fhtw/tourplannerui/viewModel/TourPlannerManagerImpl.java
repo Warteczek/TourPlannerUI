@@ -83,7 +83,6 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
             printWriter.write(jsonString);
             printWriter.close();
 
-            System.out.println(conn.getResponseCode());
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -102,8 +101,6 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
                 URL url = new URL("http://localhost:8087/tour/"+id);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("DELETE");
-                System.out.println(id);
-                System.out.println(conn.getResponseCode());
             } catch(Exception e){
                 e.printStackTrace();
             }
@@ -170,9 +167,9 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
 
     @Override
     public List<TourLog> getTourLogs(String tourID) {
-        //TODO get Tourlogs
+        List<TourLog> tourLogs = new ArrayList<TourLog>();
         try {
-            URL url = new URL("http://localhost:8087/");
+            URL url = new URL("http://localhost:8087/tourlogs/"+tourID);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             BufferedReader in = new BufferedReader(
@@ -185,14 +182,16 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
             }
             in.close();
 
-            String responseString=response.toString();
-
-            System.out.println(responseString);
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<TourLog> responseList = objectMapper.readValue(response.toString(), new TypeReference<List<TourLog>>(){});
+            for (TourLog tourLog:responseList) {
+                tourLogs.add(tourLog);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return tourLogs;
     }
 
     @Override
@@ -221,7 +220,18 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
             printWriter.write(jsonString);
             printWriter.close();
 
-            System.out.println(conn.getResponseCode());
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteTourLog(Long id) {
+        String idString=Long.toString(id);
+        try {
+            URL url = new URL("http://localhost:8087/tourlog/"+idString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
         } catch(Exception e){
             e.printStackTrace();
         }

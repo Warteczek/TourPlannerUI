@@ -12,6 +12,7 @@ module at.fhtw.tourplannerui {
     exports at.fhtw.tourplannerui;
     exports at.fhtw.tourplannerui.view;
     opens at.fhtw.tourplannerui.view to javafx.fxml;
+    opens at.fhtw.tourplannerui.models to javafx.base;
 
     exports at.fhtw.tourplannerui.models to com.fasterxml.jackson.databind;
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="78.0" layoutY="46.0" text="Name" />
+      <Label layoutX="78.0" layoutY="154.0" text="To:" />
+      <Label layoutX="300.0" layoutY="46.0" text="From:" />
+      <Label layoutX="300.0" layoutY="163.0" text="Transport type" />
+      <Label layoutX="211.0" layoutY="243.0" text="Description" />
+      <TextField fx:id="editName" layoutX="20.0" layoutY="74.0" />
+      <TextField fx:id="editFrom" layoutX="241.0" layoutY="74.0" />
+      <TextField fx:id="editTo" layoutX="20.0" layoutY="180.0" />
+      <TextField fx:id="editTransportType" layoutX="265.0" layoutY="180.0" />
+      <TextArea fx:id="editDescription" layoutX="80.0" layoutY="260.0" prefHeight="125.0" prefWidth="322.0" />
+      <Button layoutX="496.0" layoutY="188.0" mnemonicParsing="false" text="Save" onAction="#saveTour"/>
+      <Button layoutX="491.0" layoutY="239.0" mnemonicParsing="false" text="Cancel" onAction="#quitEditing"/>
+   </children>
+</AnchorPane>
