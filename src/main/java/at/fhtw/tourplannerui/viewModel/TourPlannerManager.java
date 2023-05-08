@@ -18,4 +18,6 @@ public interface TourPlannerManager {
     public List<TourLog> getTourLogs(String tourID);
     public void addTourLogForID(String id, String comment, Integer rating, Integer difficulty, Integer totalTime);
     public void deleteTourLog(Long id);
+    public void saveTour(Tour currentTour);
+    public void saveTourLog(TourLog currentTourLog);
 }

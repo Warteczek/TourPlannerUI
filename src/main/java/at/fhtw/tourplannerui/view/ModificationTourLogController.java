@@ -2,6 +2,8 @@ package at.fhtw.tourplannerui.view;
 
 import at.fhtw.tourplannerui.Main;
 import at.fhtw.tourplannerui.models.TourLog;
+import at.fhtw.tourplannerui.viewModel.TourPlannerManager;
+import at.fhtw.tourplannerui.viewModel.TourPlannerManagerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +24,7 @@ public class ModificationTourLogController implements Initializable {
     public TextField editRating;
     public TextArea editComment;
     private TourLog currentTourLog;
+    private TourPlannerManager manager;
 
     public ModificationTourLogController(TourLog currentTourLog) {
         this.currentTourLog = currentTourLog;
@@ -29,6 +32,8 @@ public class ModificationTourLogController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        manager= TourPlannerManagerFactory.getManager();
+
         editDuration.setText(Integer.toString(currentTourLog.getTotalTime()));
         editDifficulty.setText(Integer.toString(currentTourLog.getDifficulty()));
         editRating.setText(Integer.toString(currentTourLog.getRating()));
@@ -51,7 +56,13 @@ public class ModificationTourLogController implements Initializable {
         stage.setScene(scene);
     }
 
-    public void saveTourLog(ActionEvent actionEvent){
-        //TODO save after editing
+    public void saveTourLog(ActionEvent actionEvent) throws IOException {
+        currentTourLog.setTotalTime(Integer.parseInt(editDuration.getText()));
+        currentTourLog.setDifficulty(Integer.parseInt(editDifficulty.getText()));
+        currentTourLog.setRating(Integer.parseInt(editRating.getText()));
+        currentTourLog.setComment(editComment.getText());
+
+        manager.saveTourLog(currentTourLog);
+        quitEditing(actionEvent);
     }
 }

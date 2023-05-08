@@ -2,6 +2,8 @@ package at.fhtw.tourplannerui.view;
 
 import at.fhtw.tourplannerui.Main;
 import at.fhtw.tourplannerui.models.Tour;
+import at.fhtw.tourplannerui.viewModel.TourPlannerManager;
+import at.fhtw.tourplannerui.viewModel.TourPlannerManagerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,7 @@ public class ModificationTourController implements Initializable {
     public TextField editTransportType;
     public TextArea editDescription;
     private Tour currentTour;
+    private TourPlannerManager manager;
 
     public ModificationTourController(Tour currentTour) {
         this.currentTour = currentTour;
@@ -32,6 +35,8 @@ public class ModificationTourController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        manager= TourPlannerManagerFactory.getManager();
+
         editName.setText(currentTour.getName());
         editTo.setText(currentTour.getTo());
         editFrom.setText(currentTour.getFrom());
@@ -54,7 +59,14 @@ public class ModificationTourController implements Initializable {
         stage.setScene(scene);
     }
 
-    public void saveTour(ActionEvent actionEvent){
-        //TODO save Tour after editing
+    public void saveTour(ActionEvent actionEvent) throws IOException {
+        currentTour.setName(editName.getText());
+        currentTour.setFrom(editFrom.getText());
+        currentTour.setTo(editTo.getText());
+        currentTour.setType(editTransportType.getText());
+        currentTour.setDescription(editDescription.getText());
+
+        manager.saveTour(currentTour);
+        quitEditing(actionEvent);
     }
 }
