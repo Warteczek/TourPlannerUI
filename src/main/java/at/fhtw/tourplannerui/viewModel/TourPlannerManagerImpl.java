@@ -220,6 +220,8 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
             printWriter.write(jsonString);
             printWriter.close();
 
+            System.out.println(conn.getResponseCode());
+
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -232,6 +234,8 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
             URL url = new URL("http://localhost:8087/tourlog/"+idString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("DELETE");
+
+            System.out.println(conn.getResponseCode());
         } catch(Exception e){
             e.printStackTrace();
         }
