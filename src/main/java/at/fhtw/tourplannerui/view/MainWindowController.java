@@ -29,6 +29,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -350,6 +351,7 @@ public class MainWindowController implements Initializable {
             // Open the document for writing
             document.open();
 
+            document.add(new Paragraph("Tour: "));
             document.add(new Paragraph("Name: " + currentTour.getName()));
             document.add(new Paragraph("Description: " + currentTour.getDescription()));
             document.add(new Paragraph("From: " + currentTour.getFrom()));
@@ -359,7 +361,18 @@ public class MainWindowController implements Initializable {
             document.add(new Paragraph("Distance: " + currentTour.getDistance()));
             document.add(new Paragraph("Time: " + currentTour.getTime()));
 
-            //TODO tourlogs
+            document.add(new Paragraph(" "));
+            document.add(new Paragraph("Tourlogs: "));
+
+            List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
+            for(TourLog log : tourLogs){
+                document.add(new Paragraph("Creation Time: " + log.getCreationTime()));
+                document.add(new Paragraph("Comment: " + log.getComment()));
+                document.add(new Paragraph("Total Time: " + log.getTotalTime()));
+                document.add(new Paragraph("Rating: " + log.getRating()));
+                document.add(new Paragraph("Difficulty: " + log.getDifficulty()));
+                document.add(new Paragraph(" "));
+            }
 
             document.close();
         }catch(FileNotFoundException | DocumentException e){
@@ -367,8 +380,59 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    public double getAvg(List<Integer> list){
+        OptionalDouble avgTime = list
+                .stream()
+                .mapToDouble(i -> i)
+                .average();
+
+        return avgTime.isPresent() ? avgTime.getAsDouble() : 0;
+    }
+
     public void generateSummarizeReport(ActionEvent actionEvent) {
-        //TODO
+        String home = System.getProperty("user.home");
+        String dest = home + "/Downloads/summarize-report.pdf";
+        Document document = new Document();
+
+        try{
+            // Create a new PdfWriter object to write the document to a file
+            PdfWriter.getInstance(document, new FileOutputStream(dest));
+
+            // Open the document for writing
+            document.open();
+        }catch(FileNotFoundException | DocumentException e){
+            e.printStackTrace();
+        }
+
+        tourList.forEach(tour -> {
+            List<TourLog> tourLogs= manager.getTourLogs(tour.getId());
+
+            List<Integer> timeList = new ArrayList<>();
+            List<Integer> diffList = new ArrayList<>();
+            List<Integer> ratingList = new ArrayList<>();
+
+            for(TourLog log : tourLogs){
+                if(log.getTotalTime() != null)
+                    timeList.add(log.getTotalTime());
+                if(log.getDifficulty() != null)
+                    diffList.add(log.getDifficulty());
+                if(log.getRating() != null)
+                    ratingList.add(log.getRating());
+            }
+
+            try {
+                document.add(new Paragraph(tour.getName() + ": "));
+                document.add(new Paragraph("Average Time: " + String.valueOf(getAvg(timeList))));
+                document.add(new Paragraph("Average Difficulty: " + String.valueOf(getAvg(diffList))));
+                document.add(new Paragraph("Average Rating: " + String.valueOf(getAvg(ratingList))));
+                document.add(new Paragraph(" "));
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        document.close();
     }
 
     public void addTourLog(){
