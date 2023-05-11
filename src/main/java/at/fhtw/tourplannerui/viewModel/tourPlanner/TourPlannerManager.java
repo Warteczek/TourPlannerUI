@@ -23,4 +23,6 @@ public interface TourPlannerManager {
     public void addTourLogForID(String id, String comment, Integer rating, Integer difficulty, Integer totalTime);
     public void deleteTourLog(Long id);
     public void saveTourLog(TourLog currentTourLog);
+    public void addTourFromJson(Object jsonObject);
+    public void addTourLogFromJson(Object jsonObject, String tourId);
 }

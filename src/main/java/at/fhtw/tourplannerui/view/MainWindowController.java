@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
@@ -78,12 +79,14 @@ public class MainWindowController implements Initializable {
     public TableColumn tourLogTableDifficulty;
     public TableColumn tourLogTableTotalTime;
     public TableColumn tourLogTableRating;
+    public MenuBar myMenuBar;
 
 
     private ObservableList<Tour> tourList;
     private ObservableList<Tour> tourListDelete;
     private Tour currentTour;
     private TourPlannerManager manager;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -600,5 +603,41 @@ public class MainWindowController implements Initializable {
 
         // Set the new Scene on the Stage
         stage.setScene(scene);
+    }
+
+    public void importJson(ActionEvent actionEvent) throws IOException {
+        // Load the new FXML file
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("importJson.fxml"));
+        JsonUploadController controller = new JsonUploadController();
+        fxmlLoader.setController(controller);
+        Parent root = fxmlLoader.load();
+
+        // Create a new Scene with the new FXML file
+        Scene scene = new Scene(root);
+
+        // Get the Stage object from the current Scene
+        Stage stage = (Stage) myMenuBar.getScene().getWindow();
+
+        // Set the new Scene on the Stage
+        stage.setScene(scene);
+
+    }
+
+    public void importJsonLogs(ActionEvent actionEvent) throws IOException {
+        // Load the new FXML file
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("importJsonLogs.fxml"));
+        JsonUploadController controller = new JsonUploadController((Tour) listTours.getSelectionModel().getSelectedItem());
+        fxmlLoader.setController(controller);
+        Parent root = fxmlLoader.load();
+
+        // Create a new Scene with the new FXML file
+        Scene scene = new Scene(root);
+
+        // Get the Stage object from the current Scene
+        Stage stage = (Stage) myMenuBar.getScene().getWindow();
+
+        // Set the new Scene on the Stage
+        stage.setScene(scene);
+
     }
 }

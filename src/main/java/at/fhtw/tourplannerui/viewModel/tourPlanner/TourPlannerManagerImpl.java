@@ -339,4 +339,48 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
         }
         return jsonObject;
     }
+
+    public void addTourFromJson(Object jsonObject){
+        try {
+            URL url = new URL("http://localhost:8087/tour/import");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            OutputStream outputStream = conn.getOutputStream();
+            PrintWriter printWriter = new PrintWriter(outputStream);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(jsonObject);
+
+            printWriter.write(jsonString);
+            printWriter.close();
+
+            System.out.println(conn.getResponseCode());
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addTourLogFromJson(Object jsonObject, String tourId){
+        try {
+            URL url = new URL("http://localhost:8087/tour/" + tourId + "/tourlog/import");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            OutputStream outputStream = conn.getOutputStream();
+            PrintWriter printWriter = new PrintWriter(outputStream);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(jsonObject);
+
+            printWriter.write(jsonString);
+            printWriter.close();
+
+            System.out.println(conn.getResponseCode());
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

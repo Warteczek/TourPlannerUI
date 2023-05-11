@@ -26,7 +26,7 @@
 <BorderPane fx:id="layout" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhtw.tourplannerui.view.MainWindowController">
     <top>
         <VBox>
-            <MenuBar BorderPane.alignment="CENTER">
+            <MenuBar fx:id="myMenuBar" BorderPane.alignment="CENTER">
                 <menus>
                     <Menu text="File">
                         <items>
@@ -37,6 +37,10 @@
                             <MenuItem onAction="#exportTours" text="Export Tours" />
                             <SeparatorMenuItem mnemonicParsing="false" />
                             <MenuItem onAction="#exportTourLogs" text="Export Tourlogs" />
+                            <SeparatorMenuItem mnemonicParsing="false" />
+                            <MenuItem onAction="#importJson" text="Import Tours" />
+                            <SeparatorMenuItem mnemonicParsing="false" />
+                            <MenuItem onAction="#importJsonLogs" text="Import ToursLogs" />
                         </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">
