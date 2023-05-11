@@ -2,12 +2,10 @@ package at.fhtw.tourplannerui.view;
 
 import at.fhtw.tourplannerui.Main;
 import at.fhtw.tourplannerui.models.TourLog;
-import at.fhtw.tourplannerui.viewModel.TourPlannerManager;
-import at.fhtw.tourplannerui.viewModel.TourPlannerManagerFactory;
+import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManager;
+import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManagerFactory;
 import at.fhtw.tourplannerui.models.Tour;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itextpdf.text.pdf.PdfDocument;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +22,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,7 +32,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javafx.stage.Stage;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.itextpdf.text.Document;

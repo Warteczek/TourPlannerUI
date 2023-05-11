@@ -1,4 +1,4 @@
-package at.fhtw.tourplannerui.viewModel;
+package at.fhtw.tourplannerui.viewModel.tourPlanner;
 
 public final class TourPlannerManagerFactory {
     private static TourPlannerManager manager;

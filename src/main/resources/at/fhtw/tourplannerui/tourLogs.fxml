@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane prefHeight="400.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+    <tabs>
+        <Tab text="Tour logs">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="254.0" prefWidth="1400.0">
+                    <children>
+                        <TableView fx:id="tourLogTable" layoutX="47.0" layoutY="14.0" prefHeight="300.0" prefWidth="600.0">
+                            <columns>
+                                <TableColumn fx:id="tourLogTableID" prefWidth="75.0" text="id" />
+                                <TableColumn fx:id="tourLogTableCreationTime" prefWidth="75.0" text="creationTime" />
+                                <TableColumn fx:id="tourLogTableComment" prefWidth="75.0" text="comment" />
+                                <TableColumn fx:id="tourLogTableDifficulty" prefWidth="75.0" text="difficulty" />
+                                <TableColumn fx:id="tourLogTableTotalTime" prefWidth="75.0" text="totalTime" />
+                                <TableColumn fx:id="tourLogTableRating" prefWidth="75.0" text="rating" />
+                            </columns>
+                        </TableView>
+                        <Button layoutX="761.0" layoutY="152.0" mnemonicParsing="false" onAction="#deleteTourLogAction" text="Delete selected Tour-Log" />
+                        <Button layoutX="768.0" layoutY="89.0" mnemonicParsing="false" onAction="#editTourLog" text="Edit selected Tour-Log" />
+                    </children></AnchorPane>
+            </content>
+        </Tab>
+        <Tab text="Add Log">
+            <content>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <AnchorPane prefHeight="347.0" prefWidth="1076.0">
+                            <children>
+                                <Label layoutX="451.0" layoutY="36.0" text="Comment" />
+                                <TextArea fx:id="addTourLogComment" layoutX="359.0" layoutY="54.0" prefHeight="149.0" prefWidth="238.0" />
+                                <Label layoutX="179.0" layoutY="36.0" text="Duration in minutes" />
+                                <TextField fx:id="addTourLogDuration" layoutX="157.0" layoutY="53.0" />
+                                <TextField fx:id="addTourLogDifficulty" layoutX="157.0" layoutY="113.0" />
+                                <Label layoutX="191.0" layoutY="96.0" text="Difficulty (0-10)" />
+                                <TextField fx:id="addTourLogRating" layoutX="157.0" layoutY="174.0" />
+                                <Button layoutX="347.0" layoutY="242.0" mnemonicParsing="false" onAction="#addTourLog" text="Add log" />
+                                <Label layoutX="198.0" layoutY="157.0" text="Rating (0-10)" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </HBox>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>

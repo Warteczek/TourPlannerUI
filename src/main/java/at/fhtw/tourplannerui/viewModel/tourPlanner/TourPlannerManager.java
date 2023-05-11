@@ -1,4 +1,4 @@
-package at.fhtw.tourplannerui.viewModel;
+package at.fhtw.tourplannerui.viewModel.tourPlanner;
 
 import at.fhtw.tourplannerui.models.Tour;
 import at.fhtw.tourplannerui.models.TourLog;
@@ -12,16 +12,15 @@ public interface TourPlannerManager {
     public List<Tour> searchTours(String searchString, boolean caseSensitive);
     public List<Tour> addTour(String tourName, String description, String startingLocation, String targetLocation, String transportType);
     public void deleteTours(List<String> ids);
+    public Object getToursExport();
+    public Object getTourLogsExport(String tourID);
+
     public Image getRoute(Tour currentTour);
     public String getDistanceAndTime(Tour currentTour);
+    public void saveTour(Tour currentTour);
 
     public List<TourLog> getTourLogs(String tourID);
     public void addTourLogForID(String id, String comment, Integer rating, Integer difficulty, Integer totalTime);
     public void deleteTourLog(Long id);
-    public void saveTour(Tour currentTour);
     public void saveTourLog(TourLog currentTourLog);
-
-    public Object getToursExport();
-
-    public Object getTourLogsExport(String tourID);
 }

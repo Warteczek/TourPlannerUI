@@ -2,8 +2,8 @@ package at.fhtw.tourplannerui.view;
 
 import at.fhtw.tourplannerui.Main;
 import at.fhtw.tourplannerui.models.TourLog;
-import at.fhtw.tourplannerui.viewModel.TourPlannerManager;
-import at.fhtw.tourplannerui.viewModel.TourPlannerManagerFactory;
+import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManager;
+import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManagerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

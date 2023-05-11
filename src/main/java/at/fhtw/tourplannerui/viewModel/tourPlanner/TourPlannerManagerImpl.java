@@ -1,4 +1,4 @@
-package at.fhtw.tourplannerui.viewModel;
+package at.fhtw.tourplannerui.viewModel.tourPlanner;
 
 import at.fhtw.tourplannerui.models.Tour;
 import at.fhtw.tourplannerui.models.TourLog;
