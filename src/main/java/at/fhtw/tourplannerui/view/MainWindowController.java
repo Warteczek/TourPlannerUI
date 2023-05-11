@@ -137,7 +137,6 @@ public class MainWindowController implements Initializable {
                 executor.execute(getRouteImage);
 
                 //load Tour Data
-
                 String responseString=manager.getDistanceAndTime(currentTour);
                 double distance_value = 0;
                 double time = 0;
@@ -169,23 +168,33 @@ public class MainWindowController implements Initializable {
                 //load Tour Logs
                 List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
                 ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
+                for(TourLog log : databaseTourLogs){
+                    log.setTotalTime(log.getTotalTime()/60);
+                }
                 tourLogTable.setItems(databaseTourLogs);
 
 
                 Integer popularityCount=0;
-                double difficultySum=0;
+                double difficultySum=0.0;
 
                 for (TourLog tourLog:tourLogs) {
                     difficultySum=difficultySum+tourLog.getDifficulty();
                     popularityCount=popularityCount+1;
                 }
-                double averageDifficulty=difficultySum/popularityCount;
-                if(averageDifficulty>5.0 || distance_value>500.0){
-                    childFriendliness.setText("No");
+
+
+                if(popularityCount==0 || infoDistance.getText().equals("Could not load distance") || infoTime.getText().equals("Could not load time")){
+                    childFriendliness.setText("Not sure");
                 }else{
-                    childFriendliness.setText("Yes");
+                    double averageDifficulty=difficultySum/popularityCount;
+                    if(averageDifficulty>5.0 || distance_value>500.0){
+                        childFriendliness.setText("No");
+                    }else{
+                        childFriendliness.setText("Yes");
+                    }
                 }
                 popularity.setText(Integer.toString(popularityCount));
+
                 executor.shutdown();
             }
         }));
@@ -194,19 +203,23 @@ public class MainWindowController implements Initializable {
             if((newValue!=null) && (oldValue!=newValue)){
                 currentTour= (Tour) newValue;
                 ExecutorService executor = Executors.newSingleThreadExecutor();
+
+                //load Route Image
                 Runnable getRouteImage = () -> {
                     Image image=manager.getRoute(currentTour);
-
                     if(image==null){
                         routeErrorLabel.setText("Could not load route");
-
                     }else{
                         routeErrorLabel.setText("");
                         routeImage.setImage(image);
                     }
                 };
                 executor.execute(getRouteImage);
+
+                //load Tour Data
                 String responseString=manager.getDistanceAndTime(currentTour);
+                double distance_value = 0;
+                double time = 0;
                 if (responseString==""){
                     infoDistance.setText("Could not load distance");
                     infoTime.setText("Could not load time");
@@ -214,8 +227,6 @@ public class MainWindowController implements Initializable {
                 else{
                     try {
                         JSONObject json_obj = new JSONObject(responseString);
-                        double distance_value = 0;
-                        double time = 0;
                         distance_value = json_obj.getDouble("distance");
                         time = json_obj.getDouble("time");
 
@@ -232,6 +243,37 @@ public class MainWindowController implements Initializable {
                 infoTo.setText(currentTour.getTo());
                 infoTransType.setText(currentTour.getType());
                 infoDescription.setText(currentTour.getDescription());
+
+
+                //load Tour Logs
+                List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
+                ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
+                for(TourLog log : databaseTourLogs){
+                    log.setTotalTime(log.getTotalTime()/60);
+                }
+                tourLogTable.setItems(databaseTourLogs);
+
+
+                Integer popularityCount=0;
+                double difficultySum=0.0;
+
+                for (TourLog tourLog:tourLogs) {
+                    difficultySum=difficultySum+tourLog.getDifficulty();
+                    popularityCount=popularityCount+1;
+                }
+
+
+                if(popularityCount==0 || infoDistance.getText().equals("Could not load distance") || infoTime.getText().equals("Could not load time")){
+                    childFriendliness.setText("Not sure");
+                }else{
+                    double averageDifficulty=difficultySum/popularityCount;
+                    if(averageDifficulty>5.0 || distance_value>500.0){
+                        childFriendliness.setText("No");
+                    }else{
+                        childFriendliness.setText("Yes");
+                    }
+                }
+                popularity.setText(Integer.toString(popularityCount));
 
                 executor.shutdown();
             }
@@ -276,7 +318,6 @@ public class MainWindowController implements Initializable {
         List<Tour> tours= manager.searchTours(searchField.textProperty().getValue(), false);
 
         tourList.addAll(tours);
-        //tourListDelete.addAll(tours);
     }
 
     public void clearAction(ActionEvent actionEvent) {
@@ -289,12 +330,9 @@ public class MainWindowController implements Initializable {
         //tourListDelete.addAll(tours);
     }
 
-    //TODO does not work anymore
     public void addAction(ActionEvent actionEvent) {
 
         tourList.clear();
-        //TODO causes Exceptions
-        //tourListDelete.clear();
 
         List<Tour> tours= manager.addTour(addNameTour.textProperty().getValue(),
                 addDescriptionTour.textProperty().getValue(),
@@ -303,8 +341,7 @@ public class MainWindowController implements Initializable {
                 addTransportType.textProperty().getValue());
 
         tourList.addAll(tours);
-        //TODO causes Exceptions
-        //tourListDelete.addAll(tours);
+
         tourTabPane.getSelectionModel().select(tourListTab);
         addNameTour.textProperty().setValue("");
         addDescriptionTour.textProperty().setValue("");
@@ -439,16 +476,50 @@ public class MainWindowController implements Initializable {
         Tour currentTour= (Tour) listTours.getSelectionModel().getSelectedItem();
 
         String comment=addTourLogComment.textProperty().getValue();
-        Integer rating=Integer.parseInt(addTourLogRating.textProperty().getValue());
-        Integer difficulty=Integer.parseInt(addTourLogDifficulty.textProperty().getValue());
-        Integer totalTime=Integer.parseInt(addTourLogDuration.textProperty().getValue());
+        Integer rating=0;
+        Integer difficulty=0;
+        Integer totalTime=0;
+
+        try {
+            rating=Integer.parseInt(addTourLogRating.textProperty().getValue());
+        } catch (NumberFormatException e) {
+            addTourLogRating.setText("Please put in a number");
+            return;
+        }
+
+        try {
+            difficulty=Integer.parseInt(addTourLogDifficulty.textProperty().getValue());
+        } catch (NumberFormatException e) {
+            addTourLogDifficulty.setText("Please put in a number");
+            return;
+        }
+
+        try {
+            totalTime=Integer.parseInt(addTourLogDuration.textProperty().getValue());
+        } catch (NumberFormatException e) {
+            addTourLogDuration.setText("Please put in a number");
+            return;
+        }
+
+        if(rating>10 || rating<0){
+            addTourLogRating.setText("Not a valid number");
+            return;
+        }
+        if(difficulty>10 || difficulty<0){
+            addTourLogDifficulty.setText("Not a valid number");
+            return;
+        }
+
+        totalTime=totalTime*60;
 
         manager.addTourLogForID(currentTour.getId(), comment, rating, difficulty, totalTime);
 
         //load Tour Logs
         List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
         ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
-
+        for(TourLog log : databaseTourLogs){
+            log.setTotalTime(log.getTotalTime()/60);
+        }
         tourLogTable.setItems(databaseTourLogs);
     }
 
@@ -459,6 +530,9 @@ public class MainWindowController implements Initializable {
         //load Tour Logs
         List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
         ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
+        for(TourLog log : databaseTourLogs){
+            log.setTotalTime(log.getTotalTime()/60);
+        }
         tourLogTable.setItems(databaseTourLogs);
     }
 

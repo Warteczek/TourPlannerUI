@@ -57,10 +57,48 @@ public class ModificationTourLogController implements Initializable {
     }
 
     public void saveTourLog(ActionEvent actionEvent) throws IOException {
-        currentTourLog.setTotalTime(Integer.parseInt(editDuration.getText()));
-        currentTourLog.setDifficulty(Integer.parseInt(editDifficulty.getText()));
-        currentTourLog.setRating(Integer.parseInt(editRating.getText()));
         currentTourLog.setComment(editComment.getText());
+
+        Integer duration=0;
+
+        int difficulty=0, rating=0;
+
+        try {
+            duration=Integer.parseInt(editDuration.getText());
+        } catch (NumberFormatException e) {
+            editDuration.setText("Please put in a number");
+            return;
+        }
+
+        try {
+            difficulty=Integer.parseInt(editDifficulty.getText());
+        } catch (NumberFormatException e) {
+            editDifficulty.setText("Please put in a number");
+            return;
+        }
+
+        try {
+            rating=Integer.parseInt(editRating.getText());
+        } catch (NumberFormatException e) {
+            editRating.setText("Please put in a number");
+            return;
+        }
+
+        if(rating>10 || rating<0){
+            editRating.setText("Not a valid number");
+            return;
+        }
+        if(difficulty>10 || difficulty<0){
+            editDifficulty.setText("Not a valid number");
+            return;
+        }
+
+        duration=duration*60;
+
+        currentTourLog.setTotalTime(duration);
+        currentTourLog.setDifficulty(difficulty);
+        currentTourLog.setRating(rating);
+
 
         manager.saveTourLog(currentTourLog);
         quitEditing(actionEvent);

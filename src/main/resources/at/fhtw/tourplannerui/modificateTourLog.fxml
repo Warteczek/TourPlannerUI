@@ -9,9 +9,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="78.0" layoutY="46.0" text="Duration:" />
-      <Label layoutX="78.0" layoutY="154.0" text="Difficulty:" />
-      <Label layoutX="300.0" layoutY="46.0" text="Rating:" />
+      <Label layoutX="78.0" layoutY="46.0" text="Duration in minutes" />
+      <Label layoutX="78.0" layoutY="154.0" text="Difficulty: (1-10)" />
+      <Label layoutX="300.0" layoutY="46.0" text="Rating: (1-10)" />
       <Label layoutX="211.0" layoutY="243.0" text="Comment" />
       <TextField fx:id="editDuration" layoutX="20.0" layoutY="74.0" />
       <TextField fx:id="editDifficulty" layoutX="241.0" layoutY="74.0" />
