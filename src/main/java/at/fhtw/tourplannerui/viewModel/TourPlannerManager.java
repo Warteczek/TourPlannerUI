@@ -20,4 +20,8 @@ public interface TourPlannerManager {
     public void deleteTourLog(Long id);
     public void saveTour(Tour currentTour);
     public void saveTourLog(TourLog currentTourLog);
+
+    public Object getToursExport();
+
+    public Object getTourLogsExport(String tourID);
 }

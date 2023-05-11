@@ -33,6 +33,10 @@
                             <MenuItem text="Preferences" />
                             <SeparatorMenuItem mnemonicParsing="false" />
                             <MenuItem onAction="#quitApplication" text="Quit" />
+                            <SeparatorMenuItem mnemonicParsing="false" />
+                            <MenuItem onAction="#exportTours" text="Export Tours" />
+                            <SeparatorMenuItem mnemonicParsing="false" />
+                            <MenuItem onAction="#exportTourLogs" text="Export Tourlogs" />
                         </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">

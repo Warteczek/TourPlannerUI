@@ -536,6 +536,42 @@ public class MainWindowController implements Initializable {
         tourLogTable.setItems(databaseTourLogs);
     }
 
+    public void writeToDownloads(String dest, Object jsonObject){
+        String home = System.getProperty("user.home");
+        File file = new File(home + dest);
+
+        try{
+            FileWriter fileWriter = new FileWriter(file);
+            new ObjectMapper().writeValue(fileWriter, jsonObject);
+            fileWriter.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void exportTours(ActionEvent actionEvent){
+        String dest = "/Downloads/tours-export.json";
+
+        Object jsonObj = manager.getToursExport();
+        if (jsonObj == null) {
+            throw new RuntimeException("No Tours available");
+        }
+
+        writeToDownloads(dest, jsonObj);
+    }
+
+    public void exportTourLogs(ActionEvent actionEvent){
+        Tour currentTour= (Tour) listTours.getSelectionModel().getSelectedItem();
+        String dest =  "/Downloads/" + currentTour.getName() + "-logs-export.json";
+
+        Object jsonObj = manager.getTourLogsExport(currentTour.getId());
+        if (jsonObj == null) {
+            throw new RuntimeException("No TourLogs available");
+        }
+
+        writeToDownloads(dest, jsonObj);
+    }
+
     public void editTour(ActionEvent actionEvent) throws IOException {
         // Load the new FXML file
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("modificateTour.fxml"));

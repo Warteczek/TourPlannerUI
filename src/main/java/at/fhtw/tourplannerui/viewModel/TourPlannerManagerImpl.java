@@ -2,20 +2,15 @@ package at.fhtw.tourplannerui.viewModel;
 
 import at.fhtw.tourplannerui.models.Tour;
 import at.fhtw.tourplannerui.models.TourLog;
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.image.Image;
-import org.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -292,5 +287,56 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Object getToursExport() {
+        Object jsonObject = null;
+        try {
+            URL url = new URL("http://localhost:8087/tours");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            jsonObject = objectMapper.readValue(response.toString(), Object.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public Object getTourLogsExport(String tourID) {
+        Object jsonObject = null;
+        try {
+            URL url = new URL("http://localhost:8087/tourlogs/"+tourID);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            jsonObject = objectMapper.readValue(response.toString(), Object.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
