@@ -251,13 +251,13 @@
                                  <children>
                                     <Label layoutX="451.0" layoutY="36.0" text="Comment" />
                                     <TextArea fx:id="addTourLogComment" layoutX="359.0" layoutY="54.0" prefHeight="149.0" prefWidth="238.0" />
-                                    <Label layoutX="208.0" layoutY="36.0" text="Duration in hours (e.g.: 4.7)" />
+                                    <Label layoutX="179.0" layoutY="36.0" text="Duration in minutes" />
                                     <TextField fx:id="addTourLogDuration" layoutX="157.0" layoutY="53.0" />
                                     <TextField fx:id="addTourLogDifficulty" layoutX="157.0" layoutY="113.0" />
-                                     <Label layoutX="208.0" layoutY="96.0" text="Difficulty (1-10)" />
+                                     <Label layoutX="191.0" layoutY="96.0" text="Difficulty (0-10)" />
                                      <TextField fx:id="addTourLogRating" layoutX="157.0" layoutY="174.0" />
                                     <Button layoutX="347.0" layoutY="242.0" mnemonicParsing="false" onAction="#addTourLog" text="Add log" />
-                                    <Label layoutX="214.0" layoutY="157.0" text="Rating (1-10)" />
+                                    <Label layoutX="198.0" layoutY="157.0" text="Rating (0-10)" />
                                  </children>
                               </AnchorPane>
                            </children>
