@@ -1,4 +1,20 @@
 package at.fhtw.tourplannerui.view;
 
-public class TourInformationController {
+import at.fhtw.tourplannerui.models.Tour;
+import javafx.fxml.Initializable;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class TourInformationController implements Initializable {
+
+    private Tour currentTour;
+
+    public TourInformationController(Tour currentTour) {
+        this.currentTour = currentTour;
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }
