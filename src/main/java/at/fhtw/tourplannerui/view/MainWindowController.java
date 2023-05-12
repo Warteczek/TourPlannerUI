@@ -270,10 +270,21 @@ public class MainWindowController implements Initializable {
             document.add(new Paragraph("From: " + currentTour.getFrom()));
             document.add(new Paragraph("To: " + currentTour.getTo()));
             document.add(new Paragraph("Type: " + currentTour.getType()));
-            //TODO distance and time are null
-            document.add(new Paragraph("Distance: " + currentTour.getDistance()));
-            document.add(new Paragraph("Time: " + currentTour.getTime()));
+            //load Tour Data
+            String responseString=manager.getDistanceAndTime(currentTour);
+            double distance_value = 0;
+            double time = 0;
 
+            try {
+                JSONObject json_obj = new JSONObject(responseString);
+                distance_value = json_obj.getDouble("distance");
+                time = json_obj.getDouble("time");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            document.add(new Paragraph("Distance: " + (distance_value == 0 ? null : distance_value)));
+            document.add(new Paragraph("Time: " + (time == 0 ? null : time)));
             document.add(new Paragraph(" "));
             document.add(new Paragraph("Tourlogs: "));
 
