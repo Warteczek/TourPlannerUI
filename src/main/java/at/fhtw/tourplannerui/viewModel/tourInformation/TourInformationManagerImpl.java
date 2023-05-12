@@ -67,29 +67,4 @@ public class TourInformationManagerImpl implements TourInformationManager{
         }
         return "";
     }
-
-    @Override
-    public void saveTour(Tour currentTour) {
-        try{
-            URL url = new URL("http://localhost:8087/tour/"+currentTour.getId());
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("PUT");
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
-            OutputStream outputStream = conn.getOutputStream();
-            PrintWriter printWriter = new PrintWriter(outputStream);
-
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonString = objectMapper.writeValueAsString(currentTour);
-
-            printWriter.write(jsonString);
-            printWriter.close();
-
-            System.out.println(conn.getResponseCode());
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 }

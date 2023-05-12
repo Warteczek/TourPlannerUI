@@ -14,15 +14,9 @@ public interface TourPlannerManager {
     public void deleteTours(List<String> ids);
     public Object getToursExport();
     public Object getTourLogsExport(String tourID);
-
-    public Image getRoute(Tour currentTour);
-    public String getDistanceAndTime(Tour currentTour);
     public void saveTour(Tour currentTour);
 
     public List<TourLog> getTourLogs(String tourID);
-    public void addTourLogForID(String id, String comment, Integer rating, Integer difficulty, Integer totalTime);
-    public void deleteTourLog(Long id);
-    public void saveTourLog(TourLog currentTourLog);
     public void addTourFromJson(Object jsonObject);
     public void addTourLogFromJson(Object jsonObject, String tourId);
 }
