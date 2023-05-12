@@ -2,6 +2,8 @@ package at.fhtw.tourplannerui.view;
 
 import at.fhtw.tourplannerui.Main;
 import at.fhtw.tourplannerui.models.TourLog;
+import at.fhtw.tourplannerui.viewModel.tourLogs.TourLogManager;
+import at.fhtw.tourplannerui.viewModel.tourLogs.TourLogManagerFactory;
 import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManager;
 import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManagerFactory;
 import javafx.event.ActionEvent;
@@ -24,7 +26,7 @@ public class ModificationTourLogController implements Initializable {
     public TextField editRating;
     public TextArea editComment;
     private TourLog currentTourLog;
-    private TourPlannerManager manager;
+    private TourLogManager manager;
 
     public ModificationTourLogController(TourLog currentTourLog) {
         this.currentTourLog = currentTourLog;
@@ -32,7 +34,7 @@ public class ModificationTourLogController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        manager= TourPlannerManagerFactory.getManager();
+        manager= TourLogManagerFactory.getManager();
 
         editDuration.setText(Integer.toString(currentTourLog.getTotalTime()));
         editDifficulty.setText(Integer.toString(currentTourLog.getDifficulty()));
