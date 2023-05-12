@@ -42,7 +42,6 @@ public class ModificationTourLogController implements Initializable {
 
     public void quitEditing(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainWindow.fxml"));
-        //Scene scene = new Scene(fxmlLoader.load(), 1600, 800);
 
         Parent root = fxmlLoader.load();
 

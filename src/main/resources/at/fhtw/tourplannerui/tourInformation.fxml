@@ -6,7 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane prefHeight="350.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<TabPane prefHeight="350.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1">
     <tabs>
         <Tab text="General information">
             <content>

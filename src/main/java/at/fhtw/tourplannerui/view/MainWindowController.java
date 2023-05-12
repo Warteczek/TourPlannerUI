@@ -54,32 +54,11 @@ public class MainWindowController implements Initializable {
     public Tab tourListTab;
     public Tab addTourTab;
     public Tab deleteTourTab;
-    public VBox generalInformationContainer;
-    public Label infoName;
-    public Label infoFrom;
-    public Label infoTo;
-    public Label infoTransType;
-    public Label infoDistance;
-    public Label infoTime;
-    public Label infoDescription;
-    public Label popularity;
-    public Label childFriendliness;
-
-    public ImageView routeImage;
-    public Label routeErrorLabel;
-
-    public TextArea addTourLogComment;
-    public TextField addTourLogDifficulty;
-    public TextField addTourLogDuration;
-    public TextField addTourLogRating;
-    public TableView tourLogTable;
-    public TableColumn tourLogTableID;
-    public TableColumn tourLogTableCreationTime;
-    public TableColumn tourLogTableComment;
-    public TableColumn tourLogTableDifficulty;
-    public TableColumn tourLogTableTotalTime;
-    public TableColumn tourLogTableRating;
     public MenuBar myMenuBar;
+    public VBox containerInfoAndLogs;
+    public Label errorNoTourSelected;
+    public Label errorNoDeleteSelected;
+
 
 
     private ObservableList<Tour> tourList;
@@ -99,14 +78,6 @@ public class MainWindowController implements Initializable {
 
         setCurrentTour();
         deleteListTours.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        //initialize TableView
-        tourLogTableID.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("id"));
-        tourLogTableCreationTime.setCellValueFactory(new PropertyValueFactory<TourLog, Timestamp>("creationTime"));
-        tourLogTableComment.setCellValueFactory(new PropertyValueFactory<TourLog, String>("comment"));
-        tourLogTableDifficulty.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("difficulty"));
-        tourLogTableTotalTime.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("totalTime"));
-        tourLogTableRating.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("rating"));
     }
 
     private void setUpListView(){
@@ -121,160 +92,62 @@ public class MainWindowController implements Initializable {
         listTours.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
             if((newValue!=null) && (oldValue!=newValue)){
                 currentTour= (Tour) newValue;
-                ExecutorService executor = Executors.newSingleThreadExecutor();
 
-                //load Route Image
-                Runnable getRouteImage = () -> {
-                    Image image=manager.getRoute(currentTour);
-                    if(image==null){
-                        routeErrorLabel.setText("Could not load route");
-                    }else{
-                        routeErrorLabel.setText("");
-                        routeImage.setImage(image);
-                    }
-                };
-                executor.execute(getRouteImage);
-
-                //load Tour Data
-                String responseString=manager.getDistanceAndTime(currentTour);
-                double distance_value = 0;
-                double time = 0;
-                if (responseString==""){
-                    infoDistance.setText("Could not load distance");
-                    infoTime.setText("Could not load time");
-                }
-                else{
-                    try {
-                        JSONObject json_obj = new JSONObject(responseString);
-                        distance_value = json_obj.getDouble("distance");
-                        time = json_obj.getDouble("time");
-
-                        infoDistance.setText(String.valueOf(distance_value)+ " km");
-                        infoTime.setText(String.valueOf(Math.round((time/(60*60))*10)/10.0)+" hours");
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                FXMLLoader loader = new FXMLLoader(Main.class.getResource("tourInformation.fxml"));
+                TourInformationController tourInformationController = new TourInformationController(currentTour);
+                loader.setController(tourInformationController);
+                Parent root = null; // load the FXML file
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
-                infoName.setText(currentTour.getId() + " " + currentTour.getName());
-                infoFrom.setText(currentTour.getFrom());
-                infoTo.setText(currentTour.getTo());
-                infoTransType.setText(currentTour.getType());
-                infoDescription.setText(currentTour.getDescription());
-
-
-                //load Tour Logs
-                List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
-                ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
-                for(TourLog log : databaseTourLogs){
-                    log.setTotalTime(log.getTotalTime()/60);
-                }
-                tourLogTable.setItems(databaseTourLogs);
-
-
-                Integer popularityCount=0;
-                double difficultySum=0.0;
-
-                for (TourLog tourLog:tourLogs) {
-                    difficultySum=difficultySum+tourLog.getDifficulty();
-                    popularityCount=popularityCount+1;
+                FXMLLoader loaderLogs = new FXMLLoader(Main.class.getResource("tourLogs.fxml"));
+                TourLogsController tourLogsController = new TourLogsController(currentTour, tourInformationController);
+                loaderLogs.setController(tourLogsController);
+                Parent rootLogs = null; // load the FXML file
+                try {
+                    rootLogs = loaderLogs.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
+                containerInfoAndLogs.getChildren().clear();
 
-                if(popularityCount==0 || infoDistance.getText().equals("Could not load distance") || infoTime.getText().equals("Could not load time")){
-                    childFriendliness.setText("Not sure");
-                }else{
-                    double averageDifficulty=difficultySum/popularityCount;
-                    if(averageDifficulty>5.0 || distance_value>500.0){
-                        childFriendliness.setText("No");
-                    }else{
-                        childFriendliness.setText("Yes");
-                    }
-                }
-                popularity.setText(Integer.toString(popularityCount));
-
-                executor.shutdown();
+                containerInfoAndLogs.getChildren().add(root);
+                containerInfoAndLogs.getChildren().add(rootLogs);
             }
         }));
 
         deleteListTours.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
             if((newValue!=null) && (oldValue!=newValue)){
                 currentTour= (Tour) newValue;
-                ExecutorService executor = Executors.newSingleThreadExecutor();
 
-                //load Route Image
-                Runnable getRouteImage = () -> {
-                    Image image=manager.getRoute(currentTour);
-                    if(image==null){
-                        routeErrorLabel.setText("Could not load route");
-                    }else{
-                        routeErrorLabel.setText("");
-                        routeImage.setImage(image);
-                    }
-                };
-                executor.execute(getRouteImage);
-
-                //load Tour Data
-                String responseString=manager.getDistanceAndTime(currentTour);
-                double distance_value = 0;
-                double time = 0;
-                if (responseString==""){
-                    infoDistance.setText("Could not load distance");
-                    infoTime.setText("Could not load time");
-                }
-                else{
-                    try {
-                        JSONObject json_obj = new JSONObject(responseString);
-                        distance_value = json_obj.getDouble("distance");
-                        time = json_obj.getDouble("time");
-
-                        infoDistance.setText(String.valueOf(distance_value)+ " km");
-                        infoTime.setText(String.valueOf(Math.round((time/(60*60))*10)/10.0)+" hours");
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                FXMLLoader loader = new FXMLLoader(Main.class.getResource("tourInformation.fxml"));
+                TourInformationController tourInformationController = new TourInformationController(currentTour);
+                loader.setController(tourInformationController);
+                Parent root = null; // load the FXML file
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
-                infoName.setText(currentTour.getId() + " " + currentTour.getName());
-                infoFrom.setText(currentTour.getFrom());
-                infoTo.setText(currentTour.getTo());
-                infoTransType.setText(currentTour.getType());
-                infoDescription.setText(currentTour.getDescription());
-
-
-                //load Tour Logs
-                List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
-                ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
-                for(TourLog log : databaseTourLogs){
-                    log.setTotalTime(log.getTotalTime()/60);
-                }
-                tourLogTable.setItems(databaseTourLogs);
-
-
-                Integer popularityCount=0;
-                double difficultySum=0.0;
-
-                for (TourLog tourLog:tourLogs) {
-                    difficultySum=difficultySum+tourLog.getDifficulty();
-                    popularityCount=popularityCount+1;
+                FXMLLoader loaderLogs = new FXMLLoader(Main.class.getResource("tourLogs.fxml"));
+                TourLogsController tourLogsController = new TourLogsController(currentTour, tourInformationController);
+                loaderLogs.setController(tourLogsController);
+                Parent rootLogs = null; // load the FXML file
+                try {
+                    rootLogs = loaderLogs.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
+                containerInfoAndLogs.getChildren().clear();
 
-                if(popularityCount==0 || infoDistance.getText().equals("Could not load distance") || infoTime.getText().equals("Could not load time")){
-                    childFriendliness.setText("Not sure");
-                }else{
-                    double averageDifficulty=difficultySum/popularityCount;
-                    if(averageDifficulty>5.0 || distance_value>500.0){
-                        childFriendliness.setText("No");
-                    }else{
-                        childFriendliness.setText("Yes");
-                    }
-                }
-                popularity.setText(Integer.toString(popularityCount));
-
-                executor.shutdown();
+                containerInfoAndLogs.getChildren().add(root);
+                containerInfoAndLogs.getChildren().add(rootLogs);
             }
         }));
 
@@ -350,6 +223,10 @@ public class MainWindowController implements Initializable {
     }
 
     public void deleteAction(ActionEvent actionEvent) {
+        if(deleteListTours.getSelectionModel().getSelectedItem()==null){
+            errorNoDeleteSelected.setText("Please select Tour");
+            return;
+        }
         ObservableList<Tour> selectedItems = deleteListTours.getSelectionModel().getSelectedItems();
 
         List<String> deleteIDs=new ArrayList<String>();
@@ -471,70 +348,6 @@ public class MainWindowController implements Initializable {
         document.close();
     }
 
-    public void addTourLog(){
-        Tour currentTour= (Tour) listTours.getSelectionModel().getSelectedItem();
-
-        String comment=addTourLogComment.textProperty().getValue();
-        Integer rating=0;
-        Integer difficulty=0;
-        Integer totalTime=0;
-
-        try {
-            rating=Integer.parseInt(addTourLogRating.textProperty().getValue());
-        } catch (NumberFormatException e) {
-            addTourLogRating.setText("Please put in a number");
-            return;
-        }
-
-        try {
-            difficulty=Integer.parseInt(addTourLogDifficulty.textProperty().getValue());
-        } catch (NumberFormatException e) {
-            addTourLogDifficulty.setText("Please put in a number");
-            return;
-        }
-
-        try {
-            totalTime=Integer.parseInt(addTourLogDuration.textProperty().getValue());
-        } catch (NumberFormatException e) {
-            addTourLogDuration.setText("Please put in a number");
-            return;
-        }
-
-        if(rating>10 || rating<0){
-            addTourLogRating.setText("Not a valid number");
-            return;
-        }
-        if(difficulty>10 || difficulty<0){
-            addTourLogDifficulty.setText("Not a valid number");
-            return;
-        }
-
-        totalTime=totalTime*60;
-
-        manager.addTourLogForID(currentTour.getId(), comment, rating, difficulty, totalTime);
-
-        //load Tour Logs
-        List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
-        ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
-        for(TourLog log : databaseTourLogs){
-            log.setTotalTime(log.getTotalTime()/60);
-        }
-        tourLogTable.setItems(databaseTourLogs);
-    }
-
-    public void deleteTourLogAction(ActionEvent actionEvent) {
-        TourLog selectedTourLog = (TourLog) tourLogTable.getSelectionModel().getSelectedItem();
-        manager.deleteTourLog(selectedTourLog.getId());
-
-        //load Tour Logs
-        List<TourLog> tourLogs= manager.getTourLogs(currentTour.getId());
-        ObservableList<TourLog> databaseTourLogs=FXCollections.observableArrayList(tourLogs);
-        for(TourLog log : databaseTourLogs){
-            log.setTotalTime(log.getTotalTime()/60);
-        }
-        tourLogTable.setItems(databaseTourLogs);
-    }
-
     public void writeToDownloads(String dest, Object jsonObject){
         String home = System.getProperty("user.home");
         File file = new File(home + dest);
@@ -572,6 +385,10 @@ public class MainWindowController implements Initializable {
     }
 
     public void editTour(ActionEvent actionEvent) throws IOException {
+        if(listTours.getSelectionModel().getSelectedItem()==null){
+            errorNoTourSelected.setText("Please select Tour");
+            return;
+        }
         // Load the new FXML file
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("modificateTour.fxml"));
         ModificationTourController controller = new ModificationTourController((Tour) listTours.getSelectionModel().getSelectedItem());
@@ -587,22 +404,6 @@ public class MainWindowController implements Initializable {
         // Set the new Scene on the Stage
         stage.setScene(scene);
 
-    }
-
-    public void editTourLog(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("modificateTourLog.fxml"));
-        ModificationTourLogController controller = new ModificationTourLogController((TourLog) tourLogTable.getSelectionModel().getSelectedItem());
-        fxmlLoader.setController(controller);
-        Parent root = fxmlLoader.load();
-
-        // Create a new Scene with the new FXML file
-        Scene scene = new Scene(root);
-
-        // Get the Stage object from the current Scene
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-        // Set the new Scene on the Stage
-        stage.setScene(scene);
     }
 
     public void importJson(ActionEvent actionEvent) throws IOException {

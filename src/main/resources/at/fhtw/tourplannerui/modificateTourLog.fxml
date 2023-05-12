@@ -13,8 +13,8 @@
       <Label layoutX="59.0" layoutY="171.0" text="Rating: (0-10)" />
       <Label layoutX="346.0" layoutY="55.0" prefHeight="17.0" prefWidth="53.0" text="Comment" />
       <TextField fx:id="editDuration" layoutX="20.0" layoutY="74.0" />
-      <TextField fx:id="editDifficulty" layoutX="21.0" layoutY="188.0" />
-      <TextField fx:id="editRating" layoutX="20.0" layoutY="131.0" />
+      <TextField fx:id="editRating" layoutX="21.0" layoutY="188.0" />
+      <TextField fx:id="editDifficulty" layoutX="20.0" layoutY="131.0" />
       <TextArea fx:id="editComment" layoutX="211.0" layoutY="81.0" prefHeight="125.0" prefWidth="322.0" />
       <Button layoutX="256.0" layoutY="256.0" mnemonicParsing="false" onAction="#saveTourLog" text="Save TourLog" />
       <Button layoutX="274.0" layoutY="297.0" mnemonicParsing="false" onAction="#quitEditing" text="Cancel" />

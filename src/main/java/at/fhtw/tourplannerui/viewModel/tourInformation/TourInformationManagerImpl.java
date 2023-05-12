@@ -46,6 +46,9 @@ public class TourInformationManagerImpl implements TourInformationManager{
             URL url = new URL("http://localhost:8087/distance?from="+currentTour.getFrom()+"&to="+currentTour.getTo()+"&routeType=shortest");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            if(conn.getResponseCode()!=200){
+                return "";
+            }
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(conn.getInputStream()));
             String inputLine;
