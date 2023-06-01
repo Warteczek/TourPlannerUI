@@ -7,6 +7,6 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Button layoutX="300.0" layoutY="188.0" mnemonicParsing="false" text="Select Json" onAction="#importTourLogs"/>
-        <Button layoutX="300.0" layoutY="239.0" mnemonicParsing="false" text="Cancel" onAction="#quitFileUpload"/>
+        <Button layoutX="300.0" layoutY="239.0" mnemonicParsing="false" text="Cancel" onAction="#quitFileUpload" styleClass="cancelButton"/>
     </children>
 </AnchorPane>

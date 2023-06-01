@@ -2,6 +2,8 @@ package at.fhtw.tourplannerui.view;
 
 import at.fhtw.tourplannerui.Main;
 import at.fhtw.tourplannerui.models.TourLog;
+import at.fhtw.tourplannerui.viewModel.tourInformation.TourInformationManager;
+import at.fhtw.tourplannerui.viewModel.tourInformation.TourInformationManagerFactory;
 import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManager;
 import at.fhtw.tourplannerui.viewModel.tourPlanner.TourPlannerManagerFactory;
 import at.fhtw.tourplannerui.models.Tour;
@@ -65,12 +67,14 @@ public class MainWindowController implements Initializable {
     private ObservableList<Tour> tourListDelete;
     private Tour currentTour;
     private TourPlannerManager manager;
+    private TourInformationManager informationManager;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         manager= TourPlannerManagerFactory.getManager();
+        informationManager= TourInformationManagerFactory.getManager();
 
         setUpListView();
 
@@ -271,7 +275,7 @@ public class MainWindowController implements Initializable {
             document.add(new Paragraph("To: " + currentTour.getTo()));
             document.add(new Paragraph("Type: " + currentTour.getType()));
             //load Tour Data
-            String responseString=manager.getDistanceAndTime(currentTour);
+            String responseString=informationManager.getDistanceAndTime(currentTour);
             double distance_value = 0;
             double time = 0;
 
@@ -408,6 +412,8 @@ public class MainWindowController implements Initializable {
 
         // Create a new Scene with the new FXML file
         Scene scene = new Scene(root);
+        String cssFile = getClass().getResource("/at/fhtw/tourplannerui/custom-style.css").toExternalForm();
+        scene.getStylesheets().add(cssFile);
 
         // Get the Stage object from the current Scene
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

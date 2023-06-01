@@ -17,6 +17,6 @@
       <TextField fx:id="editDifficulty" layoutX="20.0" layoutY="131.0" />
       <TextArea fx:id="editComment" layoutX="211.0" layoutY="81.0" prefHeight="125.0" prefWidth="322.0" />
       <Button layoutX="256.0" layoutY="256.0" mnemonicParsing="false" onAction="#saveTourLog" text="Save TourLog" />
-      <Button layoutX="274.0" layoutY="297.0" mnemonicParsing="false" onAction="#quitEditing" text="Cancel" />
+      <Button layoutX="274.0" layoutY="297.0" mnemonicParsing="false" onAction="#quitEditing" text="Cancel" styleClass="cancelButton"/>
    </children>
 </AnchorPane>

@@ -20,6 +20,6 @@
       <TextField fx:id="editTransportType" layoutX="265.0" layoutY="180.0" />
       <TextArea fx:id="editDescription" layoutX="80.0" layoutY="260.0" prefHeight="125.0" prefWidth="322.0" />
       <Button layoutX="496.0" layoutY="188.0" mnemonicParsing="false" text="Save" onAction="#saveTour"/>
-      <Button layoutX="491.0" layoutY="239.0" mnemonicParsing="false" text="Cancel" onAction="#quitEditing"/>
+      <Button layoutX="491.0" layoutY="239.0" mnemonicParsing="false" text="Cancel" onAction="#quitEditing" styleClass="cancelButton"/>
    </children>
 </AnchorPane>

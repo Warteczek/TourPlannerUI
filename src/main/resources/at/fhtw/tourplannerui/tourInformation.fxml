@@ -14,70 +14,46 @@
             <content>
                 <HBox prefHeight="200.0" prefWidth="200.0">
                     <children>
-                        <VBox prefHeight="297.0" prefWidth="323.0">
+                        <VBox prefHeight="297.0" prefWidth="323.0" styleClass="informationBox">
                             <children>
-                                <Label text="Name:">
+                                <Label text="Name:" styleClass="information-title">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="infoName" />
-                                <Label text="From: ">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
+                                <Label fx:id="infoName" styleClass="information-text"/>
+                                <Label text="From: " styleClass="information-title"></Label>
+                                <Label fx:id="infoFrom" styleClass="information-text"/>
+                                <Label text="To:" styleClass="information-title">
+
                                 </Label>
-                                <Label fx:id="infoFrom" />
-                                <Label text="To:">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <Label fx:id="infoTo" />
-                                <Label text="Transport type:">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font></Label>
-                                <Label fx:id="infoTransType" />
-                                <Label text="Distance:">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
+                                <Label fx:id="infoTo" styleClass="information-text"/>
+                                <Label text="Transport type:" styleClass="information-title"></Label>
+                                <Label fx:id="infoTransType" styleClass="information-text"/>
+                                <Label text="Distance:" styleClass="information-title">
                                 </Label>
 
-                                <Label fx:id="infoDistance" />
-                                <Label text="Time:">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
+                                <Label fx:id="infoDistance" styleClass="information-text"/>
+                                <Label text="Time:" styleClass="information-title">
                                 </Label>
-                                <Label fx:id="infoTime" />
+                                <Label fx:id="infoTime" styleClass="information-text"/>
                             </children>
                         </VBox>
-                        <VBox prefHeight="297.0" prefWidth="336.0">
+                        <VBox prefHeight="297.0" prefWidth="336.0" styleClass="informationBox">
                             <children>
-                                <Label text="Description:">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
+                                <Label text="Description:" styleClass="information-title">
                                 </Label>
-                                <Label fx:id="infoDescription" />
+                                <Label fx:id="infoDescription" styleClass="information-text"/>
                             </children>
                         </VBox>
-                        <VBox prefHeight="297.0" prefWidth="272.0">
+                        <VBox prefHeight="297.0" prefWidth="272.0" styleClass="informationBox">
                             <children>
-                                <Label text="Popularity">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
+                                <Label text="Popularity" styleClass="information-title">
                                 </Label>
-                                <Label fx:id="popularity" />
-                                <Label text="Child friendly?">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
+                                <Label fx:id="popularity" styleClass="information-text"/>
+                                <Label text="Child friendly?" styleClass="information-title">
                                 </Label>
-                                <Label fx:id="childFriendliness" />
+                                <Label fx:id="childFriendliness" styleClass="information-text"/>
                             </children>
                         </VBox>
                     </children>

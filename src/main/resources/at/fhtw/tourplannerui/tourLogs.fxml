@@ -19,15 +19,15 @@
                     <children>
                         <TableView fx:id="tourLogTable" layoutX="47.0" layoutY="14.0" prefHeight="300.0" prefWidth="600.0">
                             <columns>
-                                <TableColumn fx:id="tourLogTableID" prefWidth="75.0" text="id" />
-                                <TableColumn fx:id="tourLogTableCreationTime" prefWidth="75.0" text="creationTime" />
-                                <TableColumn fx:id="tourLogTableComment" prefWidth="75.0" text="comment" />
-                                <TableColumn fx:id="tourLogTableDifficulty" prefWidth="75.0" text="difficulty" />
-                                <TableColumn fx:id="tourLogTableTotalTime" prefWidth="75.0" text="totalTime" />
-                                <TableColumn fx:id="tourLogTableRating" prefWidth="75.0" text="rating" />
+                                <TableColumn fx:id="tourLogTableID" prefWidth="65.0" text="id" />
+                                <TableColumn fx:id="tourLogTableCreationTime" prefWidth="135.0" text="creationTime" />
+                                <TableColumn fx:id="tourLogTableComment" prefWidth="100.0" text="comment" />
+                                <TableColumn fx:id="tourLogTableDifficulty" prefWidth="100.0" text="difficulty" />
+                                <TableColumn fx:id="tourLogTableTotalTime" prefWidth="100.0" text="totalTime" />
+                                <TableColumn fx:id="tourLogTableRating" prefWidth="99.0" text="rating" />
                             </columns>
                         </TableView>
-                        <Button layoutX="761.0" layoutY="152.0" mnemonicParsing="false" onAction="#deleteTourLogAction" text="Delete selected Tour-Log" />
+                        <Button layoutX="761.0" layoutY="152.0" mnemonicParsing="false" onAction="#deleteTourLogAction" text="Delete selected Tour-Log" styleClass="deleteButton"/>
                         <Button layoutX="768.0" layoutY="89.0" mnemonicParsing="false" onAction="#editTourLog" text="Edit selected Tour-Log" />
                   <Label fx:id="errorNoSelection" layoutX="835.0" layoutY="124.0" textFill="RED" />
                     </children></AnchorPane>

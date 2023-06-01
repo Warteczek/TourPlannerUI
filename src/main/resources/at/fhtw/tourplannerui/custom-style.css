@@ -1,0 +1,110 @@
+.button {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.button:hover {
+    -fx-background-color: #219a52;
+}
+
+.deleteButton {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.deleteButton:hover {
+    -fx-background-color: #c0392b;
+}
+
+.cancelButton {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.cancelButton:hover {
+    -fx-background-color: #2980b9;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #333; /* Text color of the tab headers */
+    -fx-font-weight: bold; /* Font weight of the tab headers */
+}
+
+/* Selected Tab Header */
+.tab-pane .tab:selected .tab-label {
+    -fx-background-color: #f2f2f2; /* Background color of the selected tab header */
+}
+
+.list-view {
+    -fx-background-color: #fff; /* Background color of the ListView */
+}
+
+/* List Cell */
+.list-cell {
+    -fx-padding: 10px; /* Padding around each list item */
+    -fx-text-fill: #333; /* Text color of the list items */
+}
+
+
+
+/* Alternating List Cells */
+.list-view .list-cell:even {
+    -fx-background-color: #f8f8f8; /* Background color of even list items */
+}
+
+.list-view .list-cell:odd {
+    -fx-background-color: #fff; /* Background color of odd list items */
+}
+
+/* Selected List Cell */
+.list-view .list-cell:selected {
+    -fx-background-color: #ababe4; /* Background color of the selected list item */
+}
+
+.informationBox {
+    -fx-padding: 20px;
+    -fx-border-radius: 5px;
+}
+
+.information-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-margin-bottom: 10px;
+}
+
+/* Information Text */
+.information-text {
+    -fx-font-size: 13px;
+    -fx-line-height: 1.5;
+    -fx-color: #555;
+}
+
+.table-view {
+    -fx-background-color: #fff; /* Background color of the ListView */
+}
+
+
+
+/* Alternating List Cells */
+.table-view .table-row-cell:even {
+    -fx-background-color: #f8f8f8; /* Background color of even list items */
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #fff; /* Background color of odd list items */
+}
+
+/* Selected List Cell */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #ababe4; /* Background color of the selected list item */
+}
+
+.table-cell {
+    -fx-alignment: center; /* Horizontal alignment of cell text */
+}
+
+.table-row-cell {
+    -fx-pref-height: 40px; /* Height of each table row */
+}

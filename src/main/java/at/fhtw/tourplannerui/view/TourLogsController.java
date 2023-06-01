@@ -164,6 +164,8 @@ public class TourLogsController implements Initializable {
 
         // Create a new Scene with the new FXML file
         Scene scene = new Scene(root);
+        String cssFile = getClass().getResource("/at/fhtw/tourplannerui/custom-style.css").toExternalForm();
+        scene.getStylesheets().add(cssFile);
 
         // Get the Stage object from the current Scene
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
