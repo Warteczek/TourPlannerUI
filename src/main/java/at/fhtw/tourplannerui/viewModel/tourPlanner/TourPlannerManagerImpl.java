@@ -46,12 +46,37 @@ public class TourPlannerManagerImpl implements TourPlannerManager{
 
     @Override
     public List<Tour> searchTours(String searchString, boolean caseSensitive) {
-        List<Tour> tours = getTours();
+        List<Tour> tours = new ArrayList<Tour>();
+        try {
+            URL url = new URL("http://localhost:8087/full_text_search/"+searchString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
 
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<Tour> responseList = objectMapper.readValue(response.toString(), new TypeReference<List<Tour>>(){});
+            tours.addAll(responseList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tours;
+
+        /*
         if(caseSensitive){
             return tours.stream().filter(x-> x.getName().contains(searchString)).collect(Collectors.toList());
         }
         return tours.stream().filter(x-> x.getName().toLowerCase().contains(searchString.toLowerCase())).collect(Collectors.toList());
+
+         */
     }
 
     //TODO does strange things
