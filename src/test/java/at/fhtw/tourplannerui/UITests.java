@@ -65,7 +65,7 @@ class UITests {
         int tourlistBeforeSize = toursListBefore.getItems().size();
 
         Tour tour = Tour.builder()
-                .name("TestTour7")
+                .name("TestTour8")
                 .description("description")
                 .from("Vienna")
                 .to("Salzburg")
