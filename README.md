@@ -26,5 +26,9 @@ to update the values.
 
 ![Wireframe](assets/wireframe_basic_view.jpg)
 
+![Wireframe](assets/wireframe_add_view.jpg)
+
+![Wireframe](assets/wireframe_route_view.jpg)
+
 
 
