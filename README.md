@@ -21,3 +21,10 @@ to update the values.
 
 ## Time spent
 
+
+## Wireframes
+
+![Wireframe](assets/wireframe_basic_view.jpg)
+
+
+
